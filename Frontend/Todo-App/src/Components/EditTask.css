@@ -1,0 +1,84 @@
+/* Wrapper for full screen centering */
+.edit-task-wrapper {
+    width: 100vw;              /* full width */
+    display: flex;             /* flexbox layout */
+  justify-content: center;    /* horizontal center */
+  align-items: center;        /* vertical center */
+  min-height: 100vh;          /* full viewport height */
+  padding: 1rem;
+  background-color: #e6f0f5;  /* light background */
+  box-sizing: border-box;
+}
+
+/* The actual form container */
+.edit-task-container {
+  max-width: 500px;
+  width: 100%;
+  background-color: #fff;
+  padding: 2rem 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+
+/* Inputs and textarea styling */
+.edit-task-container input,
+.edit-task-container textarea {
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 0.8rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  box-sizing: border-box;
+  font-family: inherit;
+  resize: vertical;
+}
+
+/* Buttons container */
+.btn-group {
+  display: flex;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+
+/* Basic button styling */
+.btn {
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  background-color: #0077ff;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #005bb5;
+}
+
+/* Cancel button style */
+.btn-cancel {
+  background-color: #ccc;
+  color: #333;
+}
+
+.btn-cancel:hover {
+  background-color: #999;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .edit-task-container {
+    padding: 1.5rem 1.8rem;
+  }
+
+  .btn {
+    flex: 1;
+  }
+
+  .btn-group {
+    flex-direction: column;
+  }
+}
