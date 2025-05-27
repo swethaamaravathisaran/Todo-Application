@@ -7,7 +7,7 @@ const EditTask = () => {
   const navigate = useNavigate();
   const [token] = useState(localStorage.getItem('token') || '');
   const [form, setForm] = useState({ title: '', description: '', dueDate: '' });
-  const API_BASE = 'http://localhost:5000';
+  const API_BASE = 'https://todo-application-15.onrender.com';
 
   useEffect(() => {
     const fetchTask = async () => {

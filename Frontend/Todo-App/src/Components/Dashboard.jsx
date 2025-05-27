@@ -6,7 +6,7 @@ const Dashboard = () => {
   const [tasks, setTasks] = useState([]);
   const [token, setToken] = useState(localStorage.getItem('token') || '');
   const [loading, setLoading] = useState(false);
-  const API_BASE = 'http://localhost:5000';
+  const API_BASE = 'https://todo-application-15.onrender.com';
   const navigate = useNavigate();
 
   const fetchTasks = async () => {

@@ -12,7 +12,7 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const res = await axios.post('http://localhost:5000/auth/login', { email, password });
+      const res = await axios.post('https://todo-application-15.onrender.com/auth/login', { email, password });
       localStorage.setItem('token', res.data.token);
       navigate('/dashboard');
     } catch (err) {
@@ -22,7 +22,7 @@ const Login = () => {
 
   const handleRegister = async () => {
     try {
-      const res = await axios.post('http://localhost:5000/auth/register', { email, password });
+      const res = await axios.post('https://todo-application-15.onrender.com/auth/register', { email, password });
       alert('Registration successful! You can now log in.');
       setIsRegistering(false);
     } catch (err) {
@@ -33,7 +33,7 @@ const Login = () => {
   const handleGoogleLoginSuccess = async (credentialResponse) => {
     try {
       const idToken = credentialResponse.credential;
-      const res = await axios.post('http://localhost:5000/auth/google', { idToken });
+      const res = await axios.post('https://todo-application-15.onrender.com/auth/google', { idToken });
       localStorage.setItem('token', res.data.token);
       navigate('/dashboard');
     } catch (err) {
