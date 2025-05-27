@@ -1,24 +1,33 @@
-/* Wrapper for full screen centering */
+/* Wrapper for full screen centering with a dimmed background image */
 .edit-task-wrapper {
-    width: 100vw;              /* full width */
-    display: flex;             /* flexbox layout */
-  justify-content: center;    /* horizontal center */
-  align-items: center;        /* vertical center */
-  min-height: 100vh;          /* full viewport height */
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
   padding: 1rem;
-  background-color: #e6f0f5;  /* light background */
   box-sizing: border-box;
+
+  /* Dimmed background image with white overlay */
+  background-image: linear-gradient(rgb(113, 109, 109), rgb(119, 116, 116)),
+    url('https://img.freepik.com/free-photo/top-view-smartphone-desk-with-coffee-cup-notebook_23-2149404182.jpg?ga=GA1.1.168387999.1730787312&semt=ais_hybrid&w=740');
+  background-blend-mode: lighten;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 /* The actual form container */
 .edit-task-container {
   max-width: 500px;
   width: 100%;
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.6); /* semi-transparent for better contrast */
   padding: 2rem 2.5rem;
   border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
+  backdrop-filter: blur(4px); /* optional blur effect for a glassmorphism look */
 }
 
 /* Inputs and textarea styling */

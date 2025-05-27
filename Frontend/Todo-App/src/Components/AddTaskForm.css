@@ -1,8 +1,14 @@
-/* Ensure full-screen background layout */
+/* Ensure full-screen background layout with a dimmed image */
 .add-task-wrapper {
   width: 100vw;
   min-height: 100vh;
-  background: #f0f4f8;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)),
+    url('https://img.freepik.com/free-photo/top-view-smartphone-desk-with-coffee-cup-notebook_23-2149404182.jpg?ga=GA1.1.168387999.1730787312&semt=ais_hybrid&w=740');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,10 +20,10 @@
 .add-task-container {
   width: 100%;
   max-width: 500px;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.9);
   padding: 30px;
   border-radius: 10px;
-  box-shadow: 0 8px 14px rgba(0,0,0,0.1);
+  box-shadow: 0 8px 14px rgba(0, 0, 0, 0.2);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -94,7 +100,7 @@ textarea {
   background: #495057;
 }
 
-/* 🔽 Responsive for mobile */
+/* Responsive for mobile */
 @media (max-width: 600px) {
   .add-task-container {
     padding: 20px;

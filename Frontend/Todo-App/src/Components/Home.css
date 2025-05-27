@@ -1,46 +1,74 @@
-/* Wrapper for full screen width and height */
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Roboto+Slab:wght@700&display=swap');
+
+/* Wrapper for full screen width and height with background image and overlay */
 .home-wrapper {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  position: relative;
   min-height: 100vh;
   width: 100vw;
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+  /* Use a gradient fallback with background image */
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  background-image: url('https://img.freepik.com/free-photo/choosing-icons-mobile-app_1098-18639.jpg?auto=format&fit=crop&w=740&q=80');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Dark overlay for better text readability */
+.home-wrapper::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 0;
+}
+
+/* Ensure content is above overlay */
+.navbar,
+.home-container,
+.home-content {
+  position: relative;
+  z-index: 1;
 }
 
 /* Navigation bar */
 .navbar {
   width: 100%;
-  padding: 20px 60px;
+  padding: 25px 60px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   color: white;
   background: transparent;
-  font-size: 20px;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-family: 'Roboto Slab', serif;
+  user-select: none;
+  filter: drop-shadow(0 0 5px rgba(0,0,0,0.6));
 }
 
 .logo {
-  font-weight: bold;
-  font-size: 24px;
-  letter-spacing: 1px;
+  font-weight: 900;
+  font-size: 28px;
+  letter-spacing: 4px;
+  cursor: default;
+  transition: color 0.3s ease;
 }
 
-.login-button {
-  background-color: #ffffff22;
-  color: white;
-  padding: 10px 20px;
-  border: 2px solid #fff;
-  border-radius: 6px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.3s ease;
-}
-
-.login-button:hover {
-  background-color: white;
-  color: #667eea;
+.logo:hover {
+  color: #e7e5dc;
+  text-shadow: 0 0 10px  #e7e5dc;
 }
 
 /* Centered container */
@@ -50,73 +78,139 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 60px 20px;
+  padding: 80px 25px;
   box-sizing: border-box;
   text-align: center;
 }
 
-/* Glass-style content box */
+/* Glass-style content box with soft animations */
 .home-content {
   width: 100%;
-  max-width: 1000px;
-  padding: 60px;
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 20px;
-  backdrop-filter: blur(15px);
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+  max-width: 900px;
+  padding: 70px 60px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 24px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.38);
   color: #fff;
   margin: 0 auto;
+
+  outline: none;
 }
 
+/* @keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+} */
+
 .home-title {
-  font-size: 56px;
-  font-weight: bold;
-  margin-bottom: 20px;
+  font-family: 'Roboto Slab', serif;
+  font-size: 62px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
 }
 
 .home-title .highlight {
-  color: #ffd700;
+  color: #e0d7de;
+ 
+  
+}
+
+.home-title .highlight:hover {
+  color: #fffacd;
+  text-shadow: 0 0 20px #fffacd;
+  cursor: pointer;
 }
 
 .home-subtitle {
-  font-size: 20px;
-  margin-bottom: 30px;
-  color: #f1f1f1;
+  font-family: 'Poppins', sans-serif;
+  font-size: 22px;
+  margin-bottom: 40px;
+  color: #e0e0e0;
+  line-height: 1.5;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  letter-spacing: 0.6px;
 }
 
+/* Button with subtle gradient, shadows, and hover effect */
 .home-button {
-  padding: 14px 36px;
-  font-size: 18px;
-  font-weight: bold;
+  padding: 16px 48px;
+  font-size: 20px;
+  font-weight: 600;
   color: white;
-  background-color: #3949ab;
+  background: linear-gradient(45deg, #3949ab, #5c6bc0);
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: background 0.3s ease;
+  box-shadow: 0 8px 18px rgba(57, 73, 171, 0.6);
+  transition: background 0.4s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  user-select: none;
+  font-family: 'Poppins', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1.3px;
+  outline-offset: 3px;
 }
 
-.home-button:hover {
-  background-color: #283593;
+.home-button:hover,
+.home-button:focus {
+  background: linear-gradient(45deg, #283593, #3949ab);
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px rgba(40, 53, 147, 0.8);
+  outline: none;
+}
+
+.home-button:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 12px rgba(40, 53, 147, 0.5);
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .home-title {
-    font-size: 36px;
+    font-size: 40px;
+  }
+
+  .home-subtitle {
+    font-size: 18px;
+    max-width: 90%;
+  }
+
+  .home-content {
+    padding: 40px 30px;
+  }
+
+  .navbar {
+    padding: 20px 30px;
+    font-size: 18px;
+  }
+
+  .home-button {
+    padding: 14px 36px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-title {
+    font-size: 32px;
   }
 
   .home-subtitle {
     font-size: 16px;
   }
 
-  .home-content {
-    padding: 40px 20px;
-  }
-
-  .navbar {
-    padding: 20px;
-    flex-direction: column;
-    gap: 10px;
+  .home-button {
+    padding: 12px 28px;
+    font-size: 16px;
   }
 }

@@ -1,185 +1,169 @@
-/* Reset & global layout */
-html, body {
+/* Reset and base styles */
+html, body, #root {
   margin: 0;
   padding: 0;
   height: 100%;
   width: 100%;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #c2e9fb, #a1c4fd);
-  box-sizing: border-box;
+}
+
+/* Background styling */
+.dashboard-background {
+  background-image: url('https://img.freepik.com/free-photo/flat-lay-notebook-with-list-desk_23-2148938726.jpg');
+  background-size: cover;
+  background-position: center;
+  width: 100vw;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-/* Centered container */
+/* Main container */
 .dashboard-container {
-  width: 100%;
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 40px 20px;
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 2rem;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 1200px;
+  max-height: 95vh;
+  overflow-y: auto;
   box-sizing: border-box;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
 }
 
-/* Header layout */
+/* Title styling */
+.dashboard-title {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Header section */
 .dashboard-header {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-between;
   flex-wrap: wrap;
-  gap: 15px;
-  margin-bottom: 25px;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
 }
 
-/* Title */
-h2 {
-  font-size: 38px;
-  font-weight: bold;
-  color: #003c6c;
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-/* Button styles */
-.btn {
-  padding: 10px 20px;
-  font-size: 16px;
-  border: none;
-  border-radius: 12px;
-  background: linear-gradient(to right, #00c6ff, #0072ff);
-  color: white;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-
-.btn:hover {
-  transform: translateY(-2px) scale(1.03);
-  background: linear-gradient(to right, #0088cc, #005fa3);
-}
-
-.btn-logout {
-  background: linear-gradient(to right, #ff5858, #ff3c3c);
-}
-
-.btn-logout:hover {
-  background: linear-gradient(to right, #d60000, #b80000);
-}
-
-.btn-add-task {
-  background: linear-gradient(to right, #00b894, #00a383);
-    color: white;
-    font-weight: bold;
-    padding: 20px 24px;
-
-
-}
-
-.btn-add-task:hover {
-  background: linear-gradient(to right, #009474, #007d61);
-}
-
-.btn-toggle,
-.btn-delete {
-  background: linear-gradient(to right, #ffd166, #f79d00);
-}
-
-.btn-toggle:hover,
-.btn-delete:hover {
-  background: linear-gradient(to right, #ffb200, #e67e00);
-}
-
-/* Task grid */
+/* Task list styling */
 .task-list {
   list-style-type: none;
   padding: 0;
   margin: 0;
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 20px;
 }
 
-/* Task card */
-.task-item {
-  background-color: #ffffff;
-  padding: 20px 30px;
-  border-radius: 26px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
-    width: 100%;
+.task-card {
+  background: #ffffff;
+  padding: 1rem;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
 }
 
-.task-item:hover {
+.task-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
 }
 
-.task-item.completed {
-  background-color: #e8f5e9;
+.completed {
+  background: #e0ffe0;
   text-decoration: line-through;
-  opacity: 0.85;
+  opacity: 0.8;
 }
 
-/* Action buttons */
+.task-info h3 {
+  margin: 0 0 0.5rem;
+  color: #222;
+}
+
+.task-info p {
+  margin: 0.2rem 0;
+  font-size: 0.95rem;
+}
+
+/* Actions */
 .task-actions {
-  margin-top: 10px;
+  margin-top: 0.8rem;
   display: flex;
-  justify-content: space-between;
+  gap: 0.5rem;
   flex-wrap: wrap;
-  gap: 8px;
 }
 
-/* Edit form */
-.edit-form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+/* Buttons */
+.btn {
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s ease;
 }
 
-.edit-form input,
-.edit-form textarea {
-  padding: 10px;
-  font-size: 15px;
-  border: 1px solid #bbb;
-  border-radius: 8px;
-  width: 100%;
-  resize: vertical;
+.btn:hover {
+  opacity: 0.9;
 }
 
-/* Loading text */
-.loading-text {
-  font-size: 18px;
-  color: #444;
-  text-align: center;
-  margin-top: 30px;
+.btn-add-task {
+  background-color: #4caf50;
+  color: white;
 }
 
-/* Responsive layout */
-@media screen and (max-width: 768px) {
-  h2 {
-    font-size: 28px;
+.btn-logout {
+  background-color: #f44336;
+  color: white;
+}
+
+.btn-toggle {
+  background-color: #6da7d6;
+  color: white;
+}
+
+.btn-delete {
+  background-color: #9c27b0;
+  color: white;
+}
+
+.login-btn {
+  display: block;
+  margin: 2rem auto;
+  background-color: #707fd0;
+  color: white;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 1.5rem;
+    border-radius: 10px;
+    width: 95%;
+  }
+
+  .dashboard-title {
+    font-size: 1.6rem;
   }
 
   .dashboard-header {
     flex-direction: column;
-    gap: 12px;
+    align-items: stretch;
   }
+}
 
-  .task-list {
-    grid-template-columns: 1fr;
-  }
-
+@media (max-width: 480px) {
   .dashboard-container {
-    padding: 20px 15px;
+    padding: 1rem;
+  }
+
+  .btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .task-actions {
+    flex-direction: column;
   }
 }

@@ -1,124 +1,132 @@
-/* Login.css */
+/* LoginForm.css */
 
 .container {
   min-height: 100vh;
-  background: linear-gradient(to right, #667eea, #764ba2);
+  background: 
+    linear-gradient(135deg, rgba(239, 236, 236, 0.85) 0%, rgba(234, 234, 237, 0.9) 100%), 
+    url('https://img.freepik.com/free-photo/data-profession-money-symbol-lens-flare_1134-1414.jpg?ga=GA1.1.168387999.1730787312&semt=ais_hybrid&w=740');
+  background-blend-mode: darken;
+  background-size: cover;
+  background-position: center;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
   box-sizing: border-box;
-}
-
-/* Fullscreen on desktop, padding on mobile */
-@media (min-width: 1024px) {
-  .container {
-    width: 100vw;
-    height: 100vh;
-    padding: 0;
-  }
+  font-family: 'Poppins', sans-serif;
+  color: #ffffff;
+  overflow: hidden;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
 }
 
 .card {
-  background-color: white;
-  border-radius: 12px;
+  background-color: rgba(30, 30, 45, 0.85);
+  border-radius: 16px;
   padding: 40px;
   width: 100%;
-  max-width: 400px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  max-width: 420px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8);
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 18px;
   text-align: center;
-  box-sizing: border-box;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #f5f5f5;
 }
 
-/* Reduce padding and width on smaller screens */
-@media (max-width: 400px) {
-  .card {
-    padding: 30px 20px;
-    max-width: 100%;
-  }
+.card:hover {
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.95);
 }
 
 .title {
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 8px;
-  color: #333;
+  font-size: 38px;
+  font-weight: 900;
+  color: #fdfdfd;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
 }
 
 .subtitle {
-  font-size: 14px;
-  color: #777;
-  margin-bottom: 16px;
+  font-size: 20px;
+  color: #d1d1f5;
+  font-weight: 800;
 }
 
 .input {
-  padding: 12px 14px;
-  font-size: 16px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+  padding: 16px 20px;
+  font-size: 18px;
+  border-radius: 8px;
+  border: 2px solid #888;
+  background-color: #1e1e2f;
+  color: #ffffff;
+  font-weight: 800;
   outline: none;
-  width: 100%;
-  transition: 0.3s;
-  box-sizing: border-box;
+}
+
+.input::placeholder {
+  color: #bbb;
+  opacity: 0.9;
 }
 
 .input:focus {
-  border-color: #667eea;
-  box-shadow: 0 0 5px rgba(102, 126, 234, 0.5);
+  border-color: #4a90e2;
+  box-shadow: 0 0 12px rgba(74, 144, 226, 0.7);
+  background-color: #25253b;
+  color: #ffffff;
 }
 
 .button {
-  padding: 12px;
-  background-color: #667eea;
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
+  padding: 16px;
+  background: linear-gradient(90deg, #9671be, #748aaf);
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 900;
   border: none;
-  border-radius: 6px;
+  border-radius: 10px;
   cursor: pointer;
-  transition: background 0.3s ease;
+  box-shadow: 0 4px 18px rgba(101, 89, 222, 0.8);
 }
 
 .button:hover {
-  background-color: #5563c1;
+  background: linear-gradient(90deg, #2575fc, #8866ac);
+  transform: scale(1.08);
+  box-shadow: 0 8px 25px rgba(85, 70, 210, 0.95);
 }
 
 .divider {
-  margin: 10px 0;
-  color: #999;
-  font-size: 14px;
+  margin: 14px 0;
+  color: #bbbbff;
+  font-size: 15px;
+  font-weight: 800;
 }
 
 .google-login-wrapper {
-  margin-top: 10px;
+  margin-top: 12px;
   display: flex;
   justify-content: center;
 }
 
-/* Toggle between login/register links */
 .toggle-section {
-  margin-top: 12px;
-  font-size: 14px;
-  color: #444;
+  margin-top: 18px;
+  font-size: 16px;
+  color: #ccccff;
+  font-weight: 800;
 }
 
 .link-text {
-  color: #667eea;
+  color: #89c4f4;
   cursor: pointer;
   text-decoration: underline;
-  margin-left: 4px;
-  font-weight: 500;
-  transition: color 0.3s ease;
+  margin-left: 6px;
+  font-weight: 900;
 }
 
 .link-text:hover {
-  color: #5563c1;
+  color: #ffffff;
 }
 
-/* Optional: Smooth transitions */
+/* Transitions */
 .card,
 .input,
 .button,
