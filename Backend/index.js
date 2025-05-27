@@ -10,12 +10,13 @@ dotenv.config();
 
 const app = express();
 
-// === CORS Setup with whitelist and full OPTIONS handling ===
+// === CORS Setup ===
+// Use whitelist if you want to allow multiple origins
 const allowedOrigins = [process.env.CLIENT_URL || 'http://localhost:5173'];
 
-const corsOptions = {
+app.use(cors({
   origin: function(origin, callback) {
-    // allow requests with no origin like mobile apps or curl requests
+    // Allow requests with no origin like mobile apps or curl requests
     if (!origin) return callback(null, true);
     if (allowedOrigins.indexOf(origin) === -1) {
       const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
@@ -24,17 +25,8 @@ const corsOptions = {
     return callback(null, true);
   },
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'Origin', 'X-Requested-With'],
-};
+}));
 
-// Apply CORS middleware globally
-app.use(cors(corsOptions));
-
-// Explicitly handle preflight OPTIONS requests for all routes
-app.options('*', cors(corsOptions));
-
-// Parse JSON bodies
 app.use(express.json());
 
 // === Secrets and Keys ===
@@ -144,6 +136,7 @@ app.post('/auth/google', async (req, res) => {
 
     let user = await User.findOne({ email });
     if (!user) {
+      // Use a random hash or flag so passwordHash is still required but dummy
       user = new User({ email, passwordHash: 'google-user' });
       await user.save();
     }
@@ -213,12 +206,12 @@ app.delete('/tasks/:id', async (req, res) => {
   }
 });
 
-// Root route
+// === Root route for Render or health check ===
 app.get('/', (req, res) => {
   res.send('✅ Backend API is running!');
 });
 
-// Start server
+// === Start Server ===
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
