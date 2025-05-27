@@ -12,7 +12,7 @@ const app = express();
 
 // === CORS Setup ===
 // Use whitelist if you want to allow multiple origins
-const allowedOrigins = [process.env.CLIENT_URL || 'http://localhost:5173'];
+const allowedOrigins = [process.env.CLIENT_URL || 'http://localhost:5173'||'https://todo-application-5rhl.vercel.app'];
 
 app.use(cors({
   origin: function(origin, callback) {
@@ -25,6 +25,10 @@ app.use(cors({
     return callback(null, true);
   },
   credentials: true,
+}));
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true, // needed for cookies/session headers
 }));
 
 app.use(express.json());
