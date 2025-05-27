@@ -159,6 +159,11 @@ app.delete('/tasks/:id', async (req, res) => {
   res.json({ message: 'Task deleted' });
 });
 
+// === Root route for Render ===
+app.get('/', (req, res) => {
+  res.send('✅ Backend API is running!');
+});
+
 // === Start Server ===
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
