@@ -4,33 +4,38 @@ const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { OAuth2Client } = require('google-auth-library');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 const app = express();
-app.use(cors());
+
+// === CORS Setup ===
+app.use(cors({
+  origin: process.env.CLIENT_URL,
+  credentials: true,
+}));
 app.use(express.json());
 
-const JWT_SECRET = 'mysecretkey hackathon-9524';
-const GOOGLE_CLIENT_ID = '704467124588-cfs03sej486v5olnquddcik6ebp0vsl0.apps.googleusercontent.com'; // 🔁 Replace with actual Client ID
-
+// === Secrets and Keys ===
+const JWT_SECRET = process.env.JWT_SECRET;
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const googleClient = new OAuth2Client(GOOGLE_CLIENT_ID);
 
-// MongoDB connection
-mongoose.connect('mongodb+srv://SwethaAmaravathi:Swetha9865@blossom.ho7wing.mongodb.net/TODO-APP?retryWrites=true&w=majority&appName=Blossom');
-mongoose.connection.once('open', () => {
-  console.log('✅ Successfully connected to MongoDB');
-});
-mongoose.connection.on('error', (err) => {
-  console.error('❌ MongoDB connection error:', err);
-});
+// === MongoDB Connection ===
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log('✅ Successfully connected to MongoDB'))
+  .catch((err) => console.error('❌ MongoDB connection error:', err));
 
-// User model
+// === User Model ===
 const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   passwordHash: { type: String, required: true },
 }, { timestamps: true });
+
 const User = mongoose.model('User', userSchema);
 
-// Task model
+// === Task Model ===
 const taskSchema = new mongoose.Schema({
   userId: String,
   title: { type: String, required: true },
@@ -38,9 +43,10 @@ const taskSchema = new mongoose.Schema({
   dueDate: Date,
   status: { type: String, enum: ['Open', 'Complete'], default: 'Open' },
 }, { timestamps: true });
+
 const Task = mongoose.model('Task', taskSchema);
 
-// JWT auth middleware
+// === Auth Middleware ===
 function authMiddleware(req, res, next) {
   const authHeader = req.headers.authorization;
   if (!authHeader) return res.status(401).json({ error: 'Authorization header missing' });
@@ -57,7 +63,7 @@ function authMiddleware(req, res, next) {
   }
 }
 
-// =================== AUTH ROUTES ===================
+// === AUTH ROUTES ===
 
 // Register
 app.post('/auth/register', async (req, res) => {
@@ -103,7 +109,6 @@ app.post('/auth/google', async (req, res) => {
     const payload = ticket.getPayload();
     const email = payload.email;
 
-    // Check or create user
     let user = await User.findOne({ email });
     if (!user) {
       user = await User.create({ email, passwordHash: 'google-user' }); // dummy hash
@@ -117,14 +122,16 @@ app.post('/auth/google', async (req, res) => {
   }
 });
 
-// =================== TASK ROUTES ===================
+// === TASK ROUTES ===
 app.use('/tasks', authMiddleware);
 
+// Get all tasks
 app.get('/tasks', async (req, res) => {
   const tasks = await Task.find({ userId: req.userId });
   res.json(tasks);
 });
 
+// Add new task
 app.post('/tasks', async (req, res) => {
   const { title, description, dueDate } = req.body;
   if (!title) return res.status(400).json({ error: 'Title is required' });
@@ -134,6 +141,7 @@ app.post('/tasks', async (req, res) => {
   res.status(201).json(task);
 });
 
+// Update task
 app.put('/tasks/:id', async (req, res) => {
   const task = await Task.findOneAndUpdate(
     { _id: req.params.id, userId: req.userId },
@@ -144,13 +152,15 @@ app.put('/tasks/:id', async (req, res) => {
   res.json(task);
 });
 
+// Delete task
 app.delete('/tasks/:id', async (req, res) => {
   const task = await Task.findOneAndDelete({ _id: req.params.id, userId: req.userId });
   if (!task) return res.status(404).json({ error: 'Task not found' });
   res.json({ message: 'Task deleted' });
 });
 
-const PORT = 5000;
+// === Start Server ===
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
