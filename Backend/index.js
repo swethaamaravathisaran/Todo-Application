@@ -7,46 +7,39 @@ const { OAuth2Client } = require('google-auth-library');
 const dotenv = require('dotenv');
 
 dotenv.config();
-
 const app = express();
 
-// === CORS Setup ===
-// Use whitelist if you want to allow multiple origins
-const allowedOrigins = [process.env.CLIENT_URL || 'http://localhost:5173'||'https://todo-application-5rhl.vercel.app'];
+// === CORRECT CORS SETUP ===
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  'http://localhost:5173',
+  'https://todo-application-5rhl.vercel.app'
+];
 
 app.use(cors({
   origin: function(origin, callback) {
-    // Allow requests with no origin like mobile apps or curl requests
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) === -1) {
-      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
-      return callback(new Error(msg), false);
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('The CORS policy for this site does not allow access from the specified Origin.'), false);
     }
-    return callback(null, true);
   },
   credentials: true,
-}));
-app.use(cors({
-  origin: allowedOrigins,
-  credentials: true, // needed for cookies/session headers
 }));
 
 app.use(express.json());
 
-// === Secrets and Keys ===
+// === ENV VARS ===
 const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret_key';
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || '';
 const googleClient = new OAuth2Client(GOOGLE_CLIENT_ID);
 
-// === MongoDB Connection ===
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => console.log('✅ Successfully connected to MongoDB'))
-.catch((err) => console.error('❌ MongoDB connection error:', err));
+// === DATABASE CONNECTION ===
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log('✅ Successfully connected to MongoDB'))
+  .catch((err) => console.error('❌ MongoDB connection error:', err));
 
-// === User Model ===
+// === MODELS ===
 const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   passwordHash: { type: String, required: true },
@@ -54,7 +47,6 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
-// === Task Model ===
 const taskSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, required: true },
   title: { type: String, required: true },
@@ -65,7 +57,7 @@ const taskSchema = new mongoose.Schema({
 
 const Task = mongoose.model('Task', taskSchema);
 
-// === Auth Middleware ===
+// === AUTH MIDDLEWARE ===
 function authMiddleware(req, res, next) {
   const authHeader = req.headers.authorization;
   if (!authHeader) return res.status(401).json({ error: 'Authorization header missing' });
@@ -77,14 +69,12 @@ function authMiddleware(req, res, next) {
     const decoded = jwt.verify(token, JWT_SECRET);
     req.userId = decoded.userId;
     next();
-  } catch (err) {
+  } catch {
     return res.status(401).json({ error: 'Invalid token' });
   }
 }
 
 // === AUTH ROUTES ===
-
-// Register
 app.post('/auth/register', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -104,7 +94,6 @@ app.post('/auth/register', async (req, res) => {
   }
 });
 
-// Login
 app.post('/auth/login', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -113,8 +102,8 @@ app.post('/auth/login', async (req, res) => {
     const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ error: 'Invalid credentials' });
 
-    const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
-    if (!isPasswordValid) return res.status(400).json({ error: 'Invalid credentials' });
+    const isValid = await bcrypt.compare(password, user.passwordHash);
+    if (!isValid) return res.status(400).json({ error: 'Invalid credentials' });
 
     const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1d' });
     res.json({ token });
@@ -124,7 +113,6 @@ app.post('/auth/login', async (req, res) => {
   }
 });
 
-// Google Login
 app.post('/auth/google', async (req, res) => {
   try {
     const { idToken } = req.body;
@@ -135,12 +123,10 @@ app.post('/auth/google', async (req, res) => {
       audience: GOOGLE_CLIENT_ID,
     });
 
-    const payload = ticket.getPayload();
-    const email = payload.email;
+    const { email } = ticket.getPayload();
 
     let user = await User.findOne({ email });
     if (!user) {
-      // Use a random hash or flag so passwordHash is still required but dummy
       user = new User({ email, passwordHash: 'google-user' });
       await user.save();
     }
@@ -156,7 +142,6 @@ app.post('/auth/google', async (req, res) => {
 // === TASK ROUTES ===
 app.use('/tasks', authMiddleware);
 
-// Get all tasks
 app.get('/tasks', async (req, res) => {
   try {
     const tasks = await Task.find({ userId: req.userId });
@@ -167,7 +152,6 @@ app.get('/tasks', async (req, res) => {
   }
 });
 
-// Add new task
 app.post('/tasks', async (req, res) => {
   try {
     const { title, description, dueDate } = req.body;
@@ -182,7 +166,6 @@ app.post('/tasks', async (req, res) => {
   }
 });
 
-// Update task
 app.put('/tasks/:id', async (req, res) => {
   try {
     const task = await Task.findOneAndUpdate(
@@ -198,7 +181,6 @@ app.put('/tasks/:id', async (req, res) => {
   }
 });
 
-// Delete task
 app.delete('/tasks/:id', async (req, res) => {
   try {
     const task = await Task.findOneAndDelete({ _id: req.params.id, userId: req.userId });
@@ -210,12 +192,12 @@ app.delete('/tasks/:id', async (req, res) => {
   }
 });
 
-// === Root route for Render or health check ===
+// === HEALTH CHECK ===
 app.get('/', (req, res) => {
   res.send('✅ Backend API is running!');
 });
 
-// === Start Server ===
+// === START SERVER ===
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
