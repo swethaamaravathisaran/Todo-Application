@@ -9,14 +9,16 @@ html, body, #root {
 
 /* Background styling */
 .dashboard-background {
+  min-height: 100vh;
+  width: 100%;
   background-image: url('https://img.freepik.com/free-photo/flat-lay-notebook-with-list-desk_23-2148938726.jpg');
   background-size: cover;
   background-position: center;
-  width: 100vw;
-  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 1rem;
+  box-sizing: border-box;
 }
 
 /* Main container */
@@ -26,7 +28,7 @@ html, body, #root {
   border-radius: 15px;
   width: 90%;
   max-width: 1200px;
-  max-height: 95vh;
+  max-height: none;
   overflow-y: auto;
   box-sizing: border-box;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
@@ -156,14 +158,23 @@ html, body, #root {
 @media (max-width: 480px) {
   .dashboard-container {
     padding: 1rem;
+    width: 100%;
+    max-height: none;
   }
 
   .btn {
     width: 100%;
+    font-size: 1rem;
+    padding: 0.6rem 1rem;
     text-align: center;
   }
 
   .task-actions {
     flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .dashboard-title {
+    font-size: 1.4rem;
   }
 }
